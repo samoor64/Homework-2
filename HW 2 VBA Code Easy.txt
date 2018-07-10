@@ -1,0 +1,50 @@
+Sub excelHW_easy()
+
+For Each ws In Worksheets
+
+Dim Ticker As String
+Dim Volume As Double
+Dim Volume_Table As Integer
+
+Volume_Table = 2
+
+'Create header names for table
+ws.Range("I1").Value = "Ticker Symbol"
+ws.Range("J1").Value = "Total Ticker Volume"
+
+'Filter First Row
+ws.Range("A1:G1").AutoFilter
+
+'Loop through Ticker Symbol to keep track of Stocks
+For i = 2 To 705714
+
+'Check to see if ticker symbol changes
+If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+
+    Ticker = ws.Cells(i, 1).Value
+
+'Add Volume of Stocks
+Volume = Volume + ws.Cells(i, 7).Value
+    
+'Add up Stock Tickers
+ws.Range("I" & Volume_Table).Value = Ticker
+
+ws.Range("J" & Volume_Table).Value = Volume
+
+'Add extra row
+Volume_Table = Volume_Table + 1
+
+'Resest Volume when new ticker is met
+Volume = 0
+    
+Else
+
+Volume = Volume + ws.Cells(i, 7).Value
+    
+    
+End If
+
+Next i
+Next ws
+
+End Sub
